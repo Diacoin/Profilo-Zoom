@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheda Profilazione Contatto Zoom</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .no-print { display: none; }
+            body { background-color: white; padding: 0; }
+            .container { box-shadow: none; border: none; max-width: 100%; margin: 0; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-900 font-sans p-4 md:p-8">
+
+    <div class="max-w-3xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden border border-slate-200 container">
+        
+        <!-- Header -->
+        <div class="bg-indigo-700 text-white p-8 text-center">
+            <h1 class="text-3xl font-black uppercase tracking-tighter">Profilo Candidato Zoom</h1>
+            <p class="text-indigo-100 text-sm mt-2 opacity-90">A cura del Presentatore • Preparazione Speech</p>
+        </div>
+
+        <form class="p-6 md:p-10 space-y-10">
+            
+            <!-- 1. ANAGRAFICA -->
+            <section>
+                <h2 class="text-xl font-bold text-indigo-700 mb-6 flex items-center border-b pb-2">
+                    <span class="bg-indigo-100 p-2 rounded-lg mr-3">📍</span> 1. Identità e Residenza
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-500 mb-3 uppercase">Nome del Candidato</label>
+                        <input type="text" class="w-full border-b-2 border-slate-200 focus:border-indigo-500 outline-none p-2 text-lg font-medium transition-colors" placeholder="Scrivi nome e cognome...">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-500 mb-3 uppercase">Fascia d'Età</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            {['18-25', '26-35', '36-50', '50+'].map(age => (
+                                <label key={age} class="flex items-center p-2 border rounded-xl cursor-pointer hover:bg-slate-50">
+                                    <input type="radio" name="eta" class="w-4 h-4 text-indigo-600">
+                                    <span class="ml-2 text-sm">{age}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <label class="block text-sm font-bold text-slate-500 mb-3 uppercase">Luogo di Residenza (Città/Provincia)</label>
+                    <input type="text" class="w-full border-b-2 border-slate-200 focus:border-indigo-500 outline-none p-2" placeholder="Es: Milano / Puglia...">
+                </div>
+            </section>
+
+            <!-- 2. RELAZIONE -->
+            <section>
+                <h2 class="text-xl font-bold text-indigo-700 mb-6 flex items-center border-b pb-2">
+                    <span class="bg-indigo-100 p-2 rounded-lg mr-3">🤝</span> 2. Legame con il Presentatore
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-500 mb-3 uppercase">Tipo di Rapporto</label>
+                        <div class="space-y-2">
+                            {['Parente', 'Amico Storico', 'Conoscente / Ex-collega', 'Contatto Social'].map(rel => (
+                                <label key={rel} class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50">
+                                    <input type="radio" name="legame" class="mr-3">
+                                    <span class="text-sm">{rel}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-500 mb-3 uppercase">Grado di Fiducia</label>
+                        <div class="space-y-2">
+                            {['Cieca (Si fida totalmente)', 'Buona (C\'è stima)', 'Formale (Solo rispetto)', 'Bassa (Da costruire)'].map(trust => (
+                                <label key={trust} class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50">
+                                    <input type="radio" name="fiducia" class="mr-3">
+                                    <span class="text-sm">{trust}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. BACKGROUND -->
+            <section>
+                <h2 class="text-xl font-bold text-indigo-700 mb-6 flex items-center border-b pb-2">
+                    <span class="bg-indigo-100 p-2 rounded-lg mr-3">💼</span> 3. Lavoro e Finanza
+                </h2>
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 bg-slate-50 rounded-2xl">
+                            <label class="block text-xs font-black text-slate-400 mb-3 uppercase">Occupazione</label>
+                            {['Dipendente', 'Libero Professionista', 'Imprenditore', 'Studente/Altro'].map(job => (
+                                <label key={job} class="flex items-center mb-2 last:mb-0 cursor-pointer">
+                                    <input type="radio" name="lavoro" class="mr-2"> <span class="text-sm">{job}</span>
+                                </label>
+                            ))}
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-2xl">
+                            <label class="block text-xs font-black text-slate-400 mb-3 uppercase">Investimenti</label>
+                            {['Investitore Attivo', 'Ha investito in passato', 'Interessato/Mai fatto', 'Scettico'].map(inv => (
+                                <label key={inv} class="flex items-center mb-2 last:mb-0 cursor-pointer">
+                                    <input type="radio" name="invest" class="mr-2"> <span class="text-sm">{inv}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+                    <div class="p-4 border-2 border-dashed border-slate-200 rounded-2xl">
+                        <label class="block text-sm font-bold text-slate-600 mb-3">Conoscenza Crypto / Blockchain</label>
+                        <div class="flex flex-wrap gap-4">
+                            {['Esperto', 'Basi (Ha Wallet)', 'Solo sentito parlare', 'Zero'].map(cry => (
+                                <label key={cry} class="flex items-center cursor-pointer">
+                                    <input type="radio" name="crypto" class="mr-2"> <span class="text-sm">{cry}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. MINDSET -->
+            <section>
+                <h2 class="text-xl font-bold text-indigo-700 mb-6 flex items-center border-b pb-2">
+                    <span class="bg-indigo-100 p-2 rounded-lg mr-3">🧠</span> 4. Profilo Psicologico
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-500 mb-2 uppercase">Ambizione stimata</label>
+                        <select class="w-full p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option>Molto Alta (Cerca la svolta)</option>
+                            <option>Media (Cerca un extra)</option>
+                            <option>Bassa (Cerca solo sicurezza)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-500 mb-2 uppercase">Apertura Mentale</label>
+                        <select class="w-full p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option>Innovatore (Aperto a tutto)</option>
+                            <option>Razionale (Valuta i dati)</option>
+                            <option>Prudente (Molto diffidente)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. NOTE STRATEGICHE -->
+            <section class="bg-orange-50 p-6 rounded-3xl border border-orange-100">
+                <h2 class="text-lg font-bold text-orange-800 mb-4 flex items-center">
+                    <span class="mr-2">🔥</span> Note per lo Speech
+                </h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-orange-700 mb-1 uppercase tracking-wider">Qual è il suo problema principale (Pain)?</label>
+                        <textarea class="w-full p-3 rounded-xl border border-orange-200 outline-none focus:ring-2 focus:ring-orange-500 min-h-[80px]" placeholder="Es: non arriva a fine mese, non ha tempo per i figli..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-orange-700 mb-1 uppercase tracking-wider">Cosa EVITARE assolutamente?</label>
+                        <textarea class="w-full p-3 rounded-xl border border-orange-200 outline-none focus:ring-2 focus:ring-orange-500 min-h-[80px]" placeholder="Pregiudizi, argomenti sensibili..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Azioni -->
+            <div class="pt-6 flex flex-col sm:flex-row gap-4 no-print">
+                <button type="button" onclick="window.print()" class="flex-1 bg-indigo-600 text-white py-4 rounded-2xl font-black text-lg shadow-xl hover:bg-indigo-700 transition transform active:scale-95 uppercase tracking-tighter">
+                    Salva come PDF e inviami
+                </button>
+                <button type="reset" class="px-6 py-4 text-slate-400 font-bold hover:text-slate-600">Svuota tutto</button>
+            </div>
+
+        </form>
+    </div>
+
+    <p class="text-center text-slate-400 text-xs mt-8 mb-12">
+        Strumento professionale ad uso interno. Trattare i dati con riservatezza.
+    </p>
+
+</body>
+</html>
