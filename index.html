@@ -81,7 +81,7 @@
                         <div class="space-y-2">
                             <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
                                 <input type="radio" name="legame" value="Parente" class="w-4 h-4 text-indigo-600" required>
-                                <span class="ml-3 text-sm">Parente</span>
+                                <span class="ml-3 text-sm">Parente (Parentele/Cugini)</span>
                             </label>
                             <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
                                 <input type="radio" name="legame" value="Amico" class="w-4 h-4 text-indigo-600">
@@ -112,93 +112,140 @@
                                 <input type="radio" name="fiducia" value="Formale" class="w-4 h-4 text-indigo-600">
                                 <span class="ml-3 text-sm">Formale (Solo rispetto)</span>
                             </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. SITUAZIONE PERSONALE -->
+            <section>
+                <h2 class="text-xl font-bold text-indigo-700 mb-6 flex items-center border-b pb-2">
+                    <span class="bg-indigo-100 p-2 rounded-lg mr-3">🏠</span> 3. Famiglia e Sport
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Situazione Familiare</label>
+                        <div class="space-y-2">
                             <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
-                                <input type="radio" name="fiducia" value="Bassa" class="w-4 h-4 text-indigo-600">
-                                <span class="ml-3 text-sm">Bassa (Da costruire)</span>
+                                <input type="radio" name="famiglia" value="Single" class="w-4 h-4 text-indigo-600" required>
+                                <span class="ml-3 text-sm">Single</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="famiglia" value="In coppia" class="w-4 h-4 text-indigo-600">
+                                <span class="ml-3 text-sm">In coppia / Convivente</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="famiglia" value="Sposato con figli" class="w-4 h-4 text-indigo-600">
+                                <span class="ml-3 text-sm">Sposato/a con figli</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="famiglia" value="Sposato senza figli" class="w-4 h-4 text-indigo-600">
+                                <span class="ml-3 text-sm">Sposato/a senza figli</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Sportività / Attività Fisica</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="sport" value="Atleta" class="w-4 h-4 text-indigo-600" required>
+                                <span class="ml-3 text-sm">Atleta Agonista / Molto Attivo</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="sport" value="Regolare" class="w-4 h-4 text-indigo-600">
+                                <span class="ml-3 text-sm">Praticante regolare</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="sport" value="Saltuario" class="w-4 h-4 text-indigo-600">
+                                <span class="ml-3 text-sm">Saltuario / Tempo libero</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="sport" value="Sedentario" class="w-4 h-4 text-indigo-600">
+                                <span class="ml-3 text-sm">Sedentario</span>
                             </label>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 3. BACKGROUND -->
+            <!-- 4. LAVORO E FINANZA -->
             <section>
                 <h2 class="text-xl font-bold text-indigo-700 mb-6 flex items-center border-b pb-2">
-                    <span class="bg-indigo-100 p-2 rounded-lg mr-3">💼</span> 3. Lavoro e Finanza
+                    <span class="bg-indigo-100 p-2 rounded-lg mr-3">💼</span> 4. Lavoro e Finanza
                 </h2>
                 <div class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="p-4 bg-slate-50 rounded-2xl">
                             <label class="block text-xs font-black text-slate-400 mb-3 uppercase tracking-widest">Occupazione</label>
                             <div class="space-y-2">
-                                <label class="flex items-center cursor-pointer"><input type="radio" name="lavoro" value="Dipendente" class="mr-2" required> <span class="text-sm">Dipendente</span></label>
-                                <label class="flex items-center cursor-pointer"><input type="radio" name="lavoro" value="Libero Professionista" class="mr-2"> <span class="text-sm">Libero Professionista</span></label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="lavoro" value="Dipendente" class="mr-2" required> <span class="text-sm">Dipendente Privato/Pubblico</span></label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="lavoro" value="Libero Professionista" class="mr-2"> <span class="text-sm">Libero Professionista / P.IVA</span></label>
                                 <label class="flex items-center cursor-pointer"><input type="radio" name="lavoro" value="Imprenditore" class="mr-2"> <span class="text-sm">Imprenditore</span></label>
-                                <label class="flex items-center cursor-pointer"><input type="radio" name="lavoro" value="Altro" class="mr-2"> <span class="text-sm">Studente/Altro</span></label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="lavoro" value="Altro" class="mr-2"> <span class="text-sm">Studente / In cerca</span></label>
                             </div>
                         </div>
                         <div class="p-4 bg-slate-50 rounded-2xl">
-                            <label class="block text-xs font-black text-slate-400 mb-3 uppercase tracking-widest">Investimenti</label>
+                            <label class="block text-xs font-black text-slate-400 mb-3 uppercase tracking-widest">Esperienza Investimenti</label>
                             <div class="space-y-2">
                                 <label class="flex items-center cursor-pointer"><input type="radio" name="invest" value="Attivo" class="mr-2" required> <span class="text-sm">Investitore Attivo</span></label>
                                 <label class="flex items-center cursor-pointer"><input type="radio" name="invest" value="Passato" class="mr-2"> <span class="text-sm">Ha investito in passato</span></label>
-                                <label class="flex items-center cursor-pointer"><input type="radio" name="invest" value="Interessato" class="mr-2"> <span class="text-sm">Interessato/Mai fatto</span></label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="invest" value="Interessato" class="mr-2"> <span class="text-sm">Interessato / Mai fatto</span></label>
                                 <label class="flex items-center cursor-pointer"><input type="radio" name="invest" value="Scettico" class="mr-2"> <span class="text-sm">Scettico</span></label>
                             </div>
                         </div>
                     </div>
                     <div class="p-4 border-2 border-dashed border-slate-200 rounded-2xl">
-                        <label class="block text-sm font-bold text-slate-600 mb-3">Conoscenza Crypto / Blockchain</label>
+                        <label class="block text-sm font-bold text-slate-600 mb-3">Grado di conoscenza Crypto</label>
                         <div class="flex flex-wrap gap-4">
-                            <label class="flex items-center cursor-pointer"><input type="radio" name="crypto" value="Esperto" class="mr-2" required> <span class="text-sm">Esperto</span></label>
+                            <label class="flex items-center cursor-pointer"><input type="radio" name="crypto" value="Esperto" class="mr-2" required> <span class="text-sm">Esperto / Opera già</span></label>
                             <label class="flex items-center cursor-pointer"><input type="radio" name="crypto" value="Basi" class="mr-2"> <span class="text-sm">Basi (Ha Wallet)</span></label>
                             <label class="flex items-center cursor-pointer"><input type="radio" name="crypto" value="Teoria" class="mr-2"> <span class="text-sm">Solo sentito parlare</span></label>
-                            <label class="flex items-center cursor-pointer"><input type="radio" name="crypto" value="Zero" class="mr-2"> <span class="text-sm">Zero</span></label>
+                            <label class="flex items-center cursor-pointer"><input type="radio" name="crypto" value="Zero" class="mr-2"> <span class="text-sm">Zero assoluto</span></label>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 4. MINDSET -->
+            <!-- 5. MINDSET -->
             <section>
                 <h2 class="text-xl font-bold text-indigo-700 mb-6 flex items-center border-b pb-2">
-                    <span class="bg-indigo-100 p-2 rounded-lg mr-3">🧠</span> 4. Profilo Psicologico
+                    <span class="bg-indigo-100 p-2 rounded-lg mr-3">🧠</span> 5. Mindset e Ambizione
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-bold text-slate-500 mb-2 uppercase tracking-wide">Ambizione stimata</label>
                         <select class="w-full p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
                             <option>Seleziona...</option>
-                            <option>Molto Alta (Cerca la svolta)</option>
-                            <option>Media (Cerca un extra)</option>
+                            <option>Altissima (Cerca scalabilità)</option>
+                            <option>Media (Cerca miglioramento)</option>
                             <option>Bassa (Cerca solo sicurezza)</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-500 mb-2 uppercase tracking-wide">Apertura Mentale</label>
+                        <label class="block text-sm font-bold text-slate-500 mb-2 uppercase tracking-wide">Apertura Mentale / Novità</label>
                         <select class="w-full p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
                             <option>Seleziona...</option>
-                            <option>Innovatore (Aperto a tutto)</option>
+                            <option>Innovatore (Early adopter)</option>
                             <option>Razionale (Valuta i dati)</option>
-                            <option>Prudente (Molto diffidente)</option>
+                            <option>Prudente (Analitico/Lento)</option>
                         </select>
                     </div>
                 </div>
             </section>
 
-            <!-- 5. NOTE STRATEGICHE -->
+            <!-- 6. NOTE STRATEGICHE -->
             <section class="bg-orange-50 p-6 rounded-3xl border border-orange-100 shadow-inner">
                 <h2 class="text-lg font-bold text-orange-800 mb-4 flex items-center">
-                    <span class="mr-2">🔥</span> Note per lo Speech
+                    <span class="mr-2">🔥</span> Note Strategiche per lo Speech
                 </h2>
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold text-orange-700 mb-1 uppercase tracking-wider">Qual è il suo problema principale (Pain)?</label>
-                        <textarea class="w-full p-3 rounded-xl border border-orange-200 outline-none focus:ring-2 focus:ring-orange-500 min-h-[80px]" placeholder="Es: non arriva a fine mese, non ha tempo per i figli..."></textarea>
+                        <label class="block text-xs font-bold text-orange-700 mb-1 uppercase tracking-wider">Qual è il suo "Pain" (problema da risolvere)?</label>
+                        <textarea class="w-full p-3 rounded-xl border border-orange-200 outline-none focus:ring-2 focus:ring-orange-500 min-h-[80px]" placeholder="Es: poco tempo per i figli, stipendio bloccato, paura inflazione..."></textarea>
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-orange-700 mb-1 uppercase tracking-wider">Cosa EVITARE assolutamente?</label>
-                        <textarea class="w-full p-3 rounded-xl border border-orange-200 outline-none focus:ring-2 focus:ring-orange-500 min-h-[80px]" placeholder="Pregiudizi, argomenti sensibili..."></textarea>
+                        <textarea class="w-full p-3 rounded-xl border border-orange-200 outline-none focus:ring-2 focus:ring-orange-500 min-h-[80px]" placeholder="Argomenti sensibili o pregiudizi specifici..."></textarea>
                     </div>
                 </div>
             </section>
