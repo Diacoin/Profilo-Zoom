@@ -11,6 +11,13 @@
             body { background-color: white; padding: 0; }
             .container { box-shadow: none; border: none; max-width: 100%; margin: 0; }
         }
+        /* Effetto selezione sui bottoni */
+        input[type="radio"]:checked + span {
+            background-color: #eef2ff;
+            border-color: #4f46e5;
+            color: #4f46e5;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-900 font-sans p-4 md:p-8">
@@ -32,24 +39,34 @@
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                        <label class="block text-sm font-bold text-slate-500 mb-3 uppercase">Nome del Candidato</label>
-                        <input type="text" class="w-full border-b-2 border-slate-200 focus:border-indigo-500 outline-none p-2 text-lg font-medium transition-colors" placeholder="Scrivi nome e cognome...">
+                        <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Nome del Candidato</label>
+                        <input type="text" required class="w-full border-b-2 border-slate-200 focus:border-indigo-500 outline-none p-2 text-lg font-medium transition-colors" placeholder="Scrivi nome e cognome...">
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-500 mb-3 uppercase">Fascia d'Età</label>
+                        <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Fascia d'Età</label>
                         <div class="grid grid-cols-2 gap-2">
-                            {['18-25', '26-35', '36-50', '50+'].map(age => (
-                                <label key={age} class="flex items-center p-2 border rounded-xl cursor-pointer hover:bg-slate-50">
-                                    <input type="radio" name="eta" class="w-4 h-4 text-indigo-600">
-                                    <span class="ml-2 text-sm">{age}</span>
-                                </label>
-                            ))}
+                            <label class="relative">
+                                <input type="radio" name="eta" value="18-25" class="peer hidden" required>
+                                <span class="block text-center p-2 border rounded-xl cursor-pointer peer-checked:bg-indigo-50 peer-checked:border-indigo-500 peer-checked:text-indigo-600 peer-checked:font-bold hover:bg-slate-50 text-sm">18-25</span>
+                            </label>
+                            <label class="relative">
+                                <input type="radio" name="eta" value="26-35" class="peer hidden">
+                                <span class="block text-center p-2 border rounded-xl cursor-pointer peer-checked:bg-indigo-50 peer-checked:border-indigo-500 peer-checked:text-indigo-600 peer-checked:font-bold hover:bg-slate-50 text-sm">26-35</span>
+                            </label>
+                            <label class="relative">
+                                <input type="radio" name="eta" value="36-50" class="peer hidden">
+                                <span class="block text-center p-2 border rounded-xl cursor-pointer peer-checked:bg-indigo-50 peer-checked:border-indigo-500 peer-checked:text-indigo-600 peer-checked:font-bold hover:bg-slate-50 text-sm">36-50</span>
+                            </label>
+                            <label class="relative">
+                                <input type="radio" name="eta" value="50+" class="peer hidden">
+                                <span class="block text-center p-2 border rounded-xl cursor-pointer peer-checked:bg-indigo-50 peer-checked:border-indigo-500 peer-checked:text-indigo-600 peer-checked:font-bold hover:bg-slate-50 text-sm">50+</span>
+                            </label>
                         </div>
                     </div>
                 </div>
                 <div class="mt-6">
-                    <label class="block text-sm font-bold text-slate-500 mb-3 uppercase">Luogo di Residenza (Città/Provincia)</label>
-                    <input type="text" class="w-full border-b-2 border-slate-200 focus:border-indigo-500 outline-none p-2" placeholder="Es: Milano / Puglia...">
+                    <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Luogo di Residenza (Città/Provincia)</label>
+                    <input type="text" required class="w-full border-b-2 border-slate-200 focus:border-indigo-500 outline-none p-2" placeholder="Es: Milano / Puglia...">
                 </div>
             </section>
 
@@ -60,25 +77,45 @@
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                        <label class="block text-sm font-bold text-slate-500 mb-3 uppercase">Tipo di Rapporto</label>
+                        <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Tipo di Rapporto</label>
                         <div class="space-y-2">
-                            {['Parente', 'Amico Storico', 'Conoscente / Ex-collega', 'Contatto Social'].map(rel => (
-                                <label key={rel} class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50">
-                                    <input type="radio" name="legame" class="mr-3">
-                                    <span class="text-sm">{rel}</span>
-                                </label>
-                            ))}
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="legame" value="Parente" class="w-4 h-4 text-indigo-600" required>
+                                <span class="ml-3 text-sm">Parente</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="legame" value="Amico" class="w-4 h-4 text-indigo-600">
+                                <span class="ml-3 text-sm">Amico Storico</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="legame" value="Conoscente" class="w-4 h-4 text-indigo-600">
+                                <span class="ml-3 text-sm">Conoscente / Ex-collega</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="legame" value="Social" class="w-4 h-4 text-indigo-600">
+                                <span class="ml-3 text-sm">Contatto Social</span>
+                            </label>
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-500 mb-3 uppercase">Grado di Fiducia</label>
+                        <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Grado di Fiducia</label>
                         <div class="space-y-2">
-                            {['Cieca (Si fida totalmente)', 'Buona (C\'è stima)', 'Formale (Solo rispetto)', 'Bassa (Da costruire)'].map(trust => (
-                                <label key={trust} class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50">
-                                    <input type="radio" name="fiducia" class="mr-3">
-                                    <span class="text-sm">{trust}</span>
-                                </label>
-                            ))}
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="fiducia" value="Totale" class="w-4 h-4 text-indigo-600" required>
+                                <span class="ml-3 text-sm">Cieca (Si fida totalmente)</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="fiducia" value="Buona" class="w-4 h-4 text-indigo-600">
+                                <span class="ml-3 text-sm">Buona (C'è stima)</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="fiducia" value="Formale" class="w-4 h-4 text-indigo-600">
+                                <span class="ml-3 text-sm">Formale (Solo rispetto)</span>
+                            </label>
+                            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
+                                <input type="radio" name="fiducia" value="Bassa" class="w-4 h-4 text-indigo-600">
+                                <span class="ml-3 text-sm">Bassa (Da costruire)</span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -92,30 +129,31 @@
                 <div class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="p-4 bg-slate-50 rounded-2xl">
-                            <label class="block text-xs font-black text-slate-400 mb-3 uppercase">Occupazione</label>
-                            {['Dipendente', 'Libero Professionista', 'Imprenditore', 'Studente/Altro'].map(job => (
-                                <label key={job} class="flex items-center mb-2 last:mb-0 cursor-pointer">
-                                    <input type="radio" name="lavoro" class="mr-2"> <span class="text-sm">{job}</span>
-                                </label>
-                            ))}
+                            <label class="block text-xs font-black text-slate-400 mb-3 uppercase tracking-widest">Occupazione</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="lavoro" value="Dipendente" class="mr-2" required> <span class="text-sm">Dipendente</span></label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="lavoro" value="Libero Professionista" class="mr-2"> <span class="text-sm">Libero Professionista</span></label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="lavoro" value="Imprenditore" class="mr-2"> <span class="text-sm">Imprenditore</span></label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="lavoro" value="Altro" class="mr-2"> <span class="text-sm">Studente/Altro</span></label>
+                            </div>
                         </div>
                         <div class="p-4 bg-slate-50 rounded-2xl">
-                            <label class="block text-xs font-black text-slate-400 mb-3 uppercase">Investimenti</label>
-                            {['Investitore Attivo', 'Ha investito in passato', 'Interessato/Mai fatto', 'Scettico'].map(inv => (
-                                <label key={inv} class="flex items-center mb-2 last:mb-0 cursor-pointer">
-                                    <input type="radio" name="invest" class="mr-2"> <span class="text-sm">{inv}</span>
-                                </label>
-                            ))}
+                            <label class="block text-xs font-black text-slate-400 mb-3 uppercase tracking-widest">Investimenti</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="invest" value="Attivo" class="mr-2" required> <span class="text-sm">Investitore Attivo</span></label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="invest" value="Passato" class="mr-2"> <span class="text-sm">Ha investito in passato</span></label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="invest" value="Interessato" class="mr-2"> <span class="text-sm">Interessato/Mai fatto</span></label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="invest" value="Scettico" class="mr-2"> <span class="text-sm">Scettico</span></label>
+                            </div>
                         </div>
                     </div>
                     <div class="p-4 border-2 border-dashed border-slate-200 rounded-2xl">
                         <label class="block text-sm font-bold text-slate-600 mb-3">Conoscenza Crypto / Blockchain</label>
                         <div class="flex flex-wrap gap-4">
-                            {['Esperto', 'Basi (Ha Wallet)', 'Solo sentito parlare', 'Zero'].map(cry => (
-                                <label key={cry} class="flex items-center cursor-pointer">
-                                    <input type="radio" name="crypto" class="mr-2"> <span class="text-sm">{cry}</span>
-                                </label>
-                            ))}
+                            <label class="flex items-center cursor-pointer"><input type="radio" name="crypto" value="Esperto" class="mr-2" required> <span class="text-sm">Esperto</span></label>
+                            <label class="flex items-center cursor-pointer"><input type="radio" name="crypto" value="Basi" class="mr-2"> <span class="text-sm">Basi (Ha Wallet)</span></label>
+                            <label class="flex items-center cursor-pointer"><input type="radio" name="crypto" value="Teoria" class="mr-2"> <span class="text-sm">Solo sentito parlare</span></label>
+                            <label class="flex items-center cursor-pointer"><input type="radio" name="crypto" value="Zero" class="mr-2"> <span class="text-sm">Zero</span></label>
                         </div>
                     </div>
                 </div>
@@ -128,16 +166,18 @@
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-bold text-slate-500 mb-2 uppercase">Ambizione stimata</label>
-                        <select class="w-full p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                        <label class="block text-sm font-bold text-slate-500 mb-2 uppercase tracking-wide">Ambizione stimata</label>
+                        <select class="w-full p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+                            <option>Seleziona...</option>
                             <option>Molto Alta (Cerca la svolta)</option>
                             <option>Media (Cerca un extra)</option>
                             <option>Bassa (Cerca solo sicurezza)</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-500 mb-2 uppercase">Apertura Mentale</label>
-                        <select class="w-full p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500">
+                        <label class="block text-sm font-bold text-slate-500 mb-2 uppercase tracking-wide">Apertura Mentale</label>
+                        <select class="w-full p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+                            <option>Seleziona...</option>
                             <option>Innovatore (Aperto a tutto)</option>
                             <option>Razionale (Valuta i dati)</option>
                             <option>Prudente (Molto diffidente)</option>
@@ -147,7 +187,7 @@
             </section>
 
             <!-- 5. NOTE STRATEGICHE -->
-            <section class="bg-orange-50 p-6 rounded-3xl border border-orange-100">
+            <section class="bg-orange-50 p-6 rounded-3xl border border-orange-100 shadow-inner">
                 <h2 class="text-lg font-bold text-orange-800 mb-4 flex items-center">
                     <span class="mr-2">🔥</span> Note per lo Speech
                 </h2>
@@ -168,7 +208,7 @@
                 <button type="button" onclick="window.print()" class="flex-1 bg-indigo-600 text-white py-4 rounded-2xl font-black text-lg shadow-xl hover:bg-indigo-700 transition transform active:scale-95 uppercase tracking-tighter">
                     Salva come PDF e inviami
                 </button>
-                <button type="reset" class="px-6 py-4 text-slate-400 font-bold hover:text-slate-600">Svuota tutto</button>
+                <button type="reset" class="px-6 py-4 text-slate-400 font-bold hover:text-slate-600 transition-colors">Svuota tutto</button>
             </div>
 
         </form>
