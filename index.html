@@ -21,10 +21,16 @@
             font-weight: bold;
         }
 
-        /* Correzioni per evitare troncamenti nel PDF */
-        section {
-            page-break-inside: avoid;
-            break-inside: avoid;
+        /* Regola per evitare tagli a metà sulle singole domande/sezioni */
+        .avoid-break {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            display: block;
+        }
+        
+        /* Assicura l'espansione del testo lungo nel PDF */
+        textarea {
+            overflow: hidden;
         }
     </style>
 </head>
@@ -32,7 +38,7 @@
 
     <div id="scheda-da-salvare" class="max-w-3xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden border border-slate-200 container">
         
-        <!-- Header -->
+        <!-- Header (Ripristinato visibile normalmente per la prima pagina) -->
         <div class="bg-indigo-700 text-white p-8 text-center">
             <h1 class="text-3xl font-black uppercase tracking-tighter">Profilo Ospite Zoom</h1>
             <p class="text-indigo-100 text-sm mt-2 opacity-90">A cura del Presentatore • Preparazione Speech</p>
@@ -41,16 +47,16 @@
         <form class="p-6 md:p-10 space-y-10">
             
             <!-- 1. ANAGRAFICA -->
-            <section>
+            <section class="avoid-break">
                 <h2 class="text-xl font-bold text-indigo-700 mb-6 flex items-center border-b pb-2">
                     <span class="bg-indigo-100 p-2 rounded-lg mr-3 text-lg">📍</span> 1. Identità e Residenza
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
+                    <div class="avoid-break">
                         <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Nome dell'Ospite</label>
                         <input type="text" id="nomeOspite" required class="w-full border-b-2 border-slate-200 focus:border-indigo-500 outline-none p-2 text-lg font-medium transition-colors" placeholder="Scrivi nome e cognome...">
                     </div>
-                    <div>
+                    <div class="avoid-break">
                         <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Fascia d'Età</label>
                         <div class="grid grid-cols-2 gap-2">
                             <label class="relative">
@@ -72,19 +78,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-6">
+                <div class="mt-6 avoid-break">
                     <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Luogo di Residenza (Città/Provincia)</label>
                     <input type="text" id="residenza" required class="w-full border-b-2 border-slate-200 focus:border-indigo-500 outline-none p-2" placeholder="Es: Milano / Puglia...">
                 </div>
             </section>
 
             <!-- 2. RELAZIONE -->
-            <section>
+            <section class="avoid-break">
                 <h2 class="text-xl font-bold text-indigo-700 mb-6 flex items-center border-b pb-2">
                     <span class="bg-indigo-100 p-2 rounded-lg mr-3 text-lg">🤝</span> 2. Legame con il Presentatore
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
+                    <div class="avoid-break">
                         <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Tipo di Rapporto</label>
                         <div class="space-y-2">
                             <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
@@ -105,7 +111,7 @@
                             </label>
                         </div>
                     </div>
-                    <div>
+                    <div class="avoid-break">
                         <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Grado di Fiducia</label>
                         <div class="space-y-2">
                             <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
@@ -126,12 +132,12 @@
             </section>
 
             <!-- 3. SITUAZIONE PERSONALE -->
-            <section>
+            <section class="avoid-break">
                 <h2 class="text-xl font-bold text-indigo-700 mb-6 flex items-center border-b pb-2">
                     <span class="bg-indigo-100 p-2 rounded-lg mr-3 text-lg">🏠</span> 3. Famiglia e Sport
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
+                    <div class="avoid-break">
                         <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Situazione Familiare</label>
                         <div class="space-y-2">
                             <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
@@ -152,7 +158,7 @@
                             </label>
                         </div>
                     </div>
-                    <div>
+                    <div class="avoid-break">
                         <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Sportività / Attività Fisica</label>
                         <div class="space-y-2">
                             <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all has-[:checked]:bg-indigo-50 has-[:checked]:border-indigo-500">
@@ -177,13 +183,13 @@
             </section>
 
             <!-- 4. LAVORO E FINANZA -->
-            <section>
+            <section class="avoid-break">
                 <h2 class="text-xl font-bold text-indigo-700 mb-6 flex items-center border-b pb-2">
                     <span class="bg-indigo-100 p-2 rounded-lg mr-3 text-lg">💼</span> 4. Lavoro e Finanza
                 </h2>
                 <div class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="p-4 bg-slate-50 rounded-2xl">
+                        <div class="p-4 bg-slate-50 rounded-2xl avoid-break">
                             <label class="block text-xs font-black text-slate-400 mb-3 uppercase tracking-widest">Occupazione</label>
                             <div class="space-y-2">
                                 <label class="flex items-center cursor-pointer"><input type="radio" name="lavoro" value="Dipendente" class="mr-2" required> <span class="text-sm">Dipendente Privato/Pubblico</span></label>
@@ -192,7 +198,7 @@
                                 <label class="flex items-center cursor-pointer"><input type="radio" name="lavoro" value="Altro" class="mr-2"> <span class="text-sm">Studente / In cerca</span></label>
                             </div>
                         </div>
-                        <div class="p-4 bg-slate-50 rounded-2xl">
+                        <div class="p-4 bg-slate-50 rounded-2xl avoid-break">
                             <label class="block text-xs font-black text-slate-400 mb-3 uppercase tracking-widest">Esperienza Investimenti</label>
                             <div class="space-y-2">
                                 <label class="flex items-center cursor-pointer"><input type="radio" name="invest" value="Attivo" class="mr-2" required> <span class="text-sm">Investitore Attivo</span></label>
@@ -202,7 +208,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="p-4 border-2 border-dashed border-slate-200 rounded-2xl">
+                    <div class="p-4 border-2 border-dashed border-slate-200 rounded-2xl avoid-break">
                         <label class="block text-sm font-bold text-slate-600 mb-3">Grado di conoscenza Crypto</label>
                         <div class="flex flex-wrap gap-4">
                             <label class="flex items-center cursor-pointer"><input type="radio" name="crypto" value="Esperto" class="mr-2" required> <span class="text-sm">Esperto / Opera già</span></label>
@@ -215,12 +221,12 @@
             </section>
 
             <!-- 5. MINDSET -->
-            <section>
+            <section class="avoid-break">
                 <h2 class="text-xl font-bold text-indigo-700 mb-6 flex items-center border-b pb-2">
                     <span class="bg-indigo-100 p-2 rounded-lg mr-3 text-lg">🧠</span> 5. Mindset e Ambizione
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
+                    <div class="avoid-break">
                         <label class="block text-sm font-bold text-slate-500 mb-2 uppercase tracking-wide">Ambizione stimata</label>
                         <select id="ambizione" class="w-full p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer text-sm">
                             <option value="">Seleziona...</option>
@@ -229,7 +235,7 @@
                             <option>Bassa (Cerca solo sicurezza)</option>
                         </select>
                     </div>
-                    <div>
+                    <div class="avoid-break">
                         <label class="block text-sm font-bold text-slate-500 mb-2 uppercase tracking-wide">Apertura Mentale / Novità</label>
                         <select id="apertura" class="w-full p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer text-sm">
                             <option value="">Seleziona...</option>
@@ -242,16 +248,16 @@
             </section>
 
             <!-- 6. NOTE STRATEGICHE -->
-            <section class="bg-orange-50 p-6 rounded-3xl border border-orange-100 shadow-inner">
+            <section class="bg-orange-50 p-6 rounded-3xl border border-orange-100 shadow-inner avoid-break">
                 <h2 class="text-lg font-bold text-orange-800 mb-4 flex items-center">
                     <span class="mr-2 text-lg">🔥</span> Note Strategiche per lo Speech
                 </h2>
                 <div class="space-y-4">
-                    <div>
+                    <div class="avoid-break">
                         <label class="block text-xs font-bold text-orange-700 mb-1 uppercase tracking-wider">Qual è il suo "Pain" (problema da risolvere)?</label>
                         <textarea id="pain" class="w-full p-3 rounded-xl border border-orange-200 outline-none focus:ring-2 focus:ring-orange-500 min-h-[80px] text-sm" placeholder="Es: poco tempo per i figli, stipendio bloccato, paura inflazione..."></textarea>
                     </div>
-                    <div>
+                    <div class="avoid-break">
                         <label class="block text-xs font-bold text-orange-700 mb-1 uppercase tracking-wider">Cosa EVITARE assolutamente?</label>
                         <textarea id="evitare" class="w-full p-3 rounded-xl border border-orange-200 outline-none focus:ring-2 focus:ring-orange-500 min-h-[80px] text-sm" placeholder="Argomenti sensibili o pregiudizi specifici..."></textarea>
                     </div>
@@ -259,7 +265,7 @@
             </section>
 
             <!-- Azioni -->
-            <div class="pt-6 flex flex-col gap-4 no-print">
+            <div class="pt-6 flex flex-col gap-4 no-print avoid-break">
                 <button type="button" id="btnScarica" onclick="scaricaPDF()" class="w-full bg-green-600 text-white py-4 rounded-2xl font-black text-lg shadow-xl hover:bg-green-700 transition transform active:scale-95 uppercase tracking-tighter">
                     📥 SALVA O CONDIVIDI PDF
                 </button>
@@ -292,17 +298,23 @@
             btn.disabled = true;
             btn.style.opacity = "0.5";
 
-            // FONDAMENTALE SU MOBILE: Forza la sincronizzazione dei campi di testo per non averli vuoti nel PDF
+            // Forza la sincronizzazione dei campi per il PDF
             document.querySelectorAll('input[type="text"]').forEach(el => el.setAttribute('value', el.value));
-            document.querySelectorAll('textarea').forEach(el => el.innerHTML = el.value);
             document.querySelectorAll('select').forEach(el => {
                 Array.from(el.options).forEach(opt => opt.removeAttribute('selected'));
                 if (el.selectedIndex >= 0) {
                     el.options[el.selectedIndex].setAttribute('selected', 'selected');
                 }
             });
+            
+            // Adatta le textarea per il PDF
+            document.querySelectorAll('textarea').forEach(el => {
+                el.innerHTML = el.value;
+                el.style.height = 'auto'; 
+                el.style.height = (el.scrollHeight) + 'px'; 
+            });
 
-            // Reset dello scroll prima di fotografare per evitare blocchi bianchi
+            // Reset dello scroll prima di fotografare
             window.scrollTo(0, 0);
 
             const element = document.getElementById('scheda-da-salvare');
@@ -313,27 +325,30 @@
             const filename = `Profilo_${safeName}.pdf`;
 
             const opt = {
-                margin:       [10, 5, 10, 5],
+                // Margini ripristinati per evitare tagli e sovrapposizioni errate
+                margin:       [10, 5, 10, 5], 
                 filename:     filename,
-                image:        { type: 'jpeg', quality: 0.95 },
+                image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { 
-                    scale: 2, // Scala aumentata per ottima risoluzione
+                    scale: 2, 
                     useCORS: true,
                     scrollY: 0,
                     scrollX: 0,
-                    windowWidth: element.clientWidth || 800
+                    windowWidth: element.clientWidth || 800,
+                    backgroundColor: '#ffffff'
                 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                // Non dividere MAI a metà gli elementi con la classe avoid-break
+                pagebreak:    { mode: ['css', 'legacy'], avoid: ['.avoid-break'] }
             };
 
-            // Invece di far forzare al browser un download (spesso bloccato su Android)
-            // Creiamo il file PDF in memoria (Blob) e lo inviamo alla Condivisione Nativa
             setTimeout(() => {
+                // Ripristinato l'export semplice a Blob (senza riscrittura custom delle pagine)
                 html2pdf().set(opt).from(element).output('blob').then(function(pdfBlob) {
                     
                     ripristinaBottone(btn, originalText);
 
-                    // Verifica se il telefono supporta il menu di condivisione nativo per i file (Android/iOS recenti)
+                    // API Condivisione nativa Mobile (WhatsApp, Email, Drive, ecc.)
                     try {
                         const file = new File([pdfBlob], filename, { type: 'application/pdf' });
                         if (navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -342,17 +357,15 @@
                                 title: filename,
                                 text: 'Ecco la scheda profilazione Zoom compilata.'
                             }).catch(e => {
-                                // Se l'utente chiude il menu di condivisione o va in errore, proviamo il download classico
-                                console.log('Condivisione annullata, tentativo di download classico', e);
+                                console.log('Condivisione annullata', e);
                                 fallbackDownload(pdfBlob, filename);
                             });
-                            return; // Usciamo dalla funzione perché la condivisione ha funzionato
+                            return; 
                         }
                     } catch (e) {
                         console.log("Share API fallita", e);
                     }
 
-                    // Se lo smartphone non supporta la condivisione, facciamo il download classico
                     fallbackDownload(pdfBlob, filename);
 
                 }).catch(err => {
@@ -363,7 +376,6 @@
             }, 500);
         }
 
-        // Funzione di Download Classica (Piano B)
         function fallbackDownload(blob, filename) {
             try {
                 const url = window.URL.createObjectURL(blob);
@@ -376,7 +388,7 @@
                 window.URL.revokeObjectURL(url);
                 document.body.removeChild(a);
             } catch (e) {
-                alert("Il download diretto è bloccato dal browser del tuo telefono. Usa il tasto 'Stampa Classica' e scegli 'Salva come PDF'.");
+                alert("Il download diretto è bloccato dal browser. Prova a usare 'Stampa Classica'.");
             }
         }
 
