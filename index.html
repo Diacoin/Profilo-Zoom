@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scheda Profilazione Contatto Zoom</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Libreria per la generazione diretta del PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         @media print {
             .no-print { display: none; }
@@ -18,11 +20,13 @@
             color: #4f46e5;
             font-weight: bold;
         }
+        /* Stili extra per garantire la leggibilità nel PDF */
+        .pdf-content { background-color: white !important; }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-900 font-sans p-4 md:p-8">
+<body class="bg-slate-100 text-slate-900 font-sans p-2 md:p-8">
 
-    <div class="max-w-3xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden border border-slate-200 container">
+    <div id="scheda-da-salvare" class="max-w-3xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden border border-slate-200 container">
         
         <!-- Header -->
         <div class="bg-indigo-700 text-white p-8 text-center">
@@ -40,7 +44,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
                         <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Nome dell'Ospite</label>
-                        <input type="text" required class="w-full border-b-2 border-slate-200 focus:border-indigo-500 outline-none p-2 text-lg font-medium transition-colors" placeholder="Scrivi nome e cognome...">
+                        <input type="text" id="nomeOspite" required class="w-full border-b-2 border-slate-200 focus:border-indigo-500 outline-none p-2 text-lg font-medium transition-colors" placeholder="Scrivi nome e cognome...">
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Fascia d'Età</label>
@@ -214,7 +218,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-bold text-slate-500 mb-2 uppercase tracking-wide">Ambizione stimata</label>
-                        <select class="w-full p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+                        <select id="ambizione" class="w-full p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
                             <option>Seleziona...</option>
                             <option>Altissima (Cerca scalabilità)</option>
                             <option>Media (Cerca miglioramento)</option>
@@ -223,7 +227,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-slate-500 mb-2 uppercase tracking-wide">Apertura Mentale / Novità</label>
-                        <select class="w-full p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+                        <select id="apertura" class="w-full p-3 bg-white border rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
                             <option>Seleziona...</option>
                             <option>Innovatore (Early adopter)</option>
                             <option>Razionale (Valuta i dati)</option>
@@ -251,11 +255,16 @@
             </section>
 
             <!-- Azioni -->
-            <div class="pt-6 flex flex-col sm:flex-row gap-4 no-print">
-                <button type="button" onclick="window.print()" class="flex-1 bg-indigo-600 text-white py-4 rounded-2xl font-black text-lg shadow-xl hover:bg-indigo-700 transition transform active:scale-95 uppercase tracking-tighter">
-                    Salva come PDF e inviami
+            <div class="pt-6 flex flex-col gap-4 no-print">
+                <button type="button" onclick="scaricaPDF()" class="w-full bg-green-600 text-white py-4 rounded-2xl font-black text-lg shadow-xl hover:bg-green-700 transition transform active:scale-95 uppercase tracking-tighter">
+                    📥 SCARICA PDF (Consigliato Mobile)
                 </button>
-                <button type="reset" class="px-6 py-4 text-slate-400 font-bold hover:text-slate-600 transition-colors">Svuota tutto</button>
+                <div class="flex gap-4">
+                    <button type="button" onclick="window.print()" class="flex-1 bg-indigo-100 text-indigo-700 py-3 rounded-2xl font-bold text-sm hover:bg-indigo-200 transition">
+                        🖨️ Stampa Classica
+                    </button>
+                    <button type="reset" class="px-6 py-3 text-slate-400 font-bold hover:text-slate-600 transition-colors">Svuota</button>
+                </div>
             </div>
 
         </form>
@@ -265,5 +274,33 @@
         Strumento professionale solo per utilizzo interno. Trattare i dati con riservatezza.
     </p>
 
+    <script>
+        function scaricaPDF() {
+            const element = document.getElementById('scheda-da-salvare');
+            const nomeOspite = document.getElementById('nomeOspite').value || 'Ospite';
+            
+            // Opzioni per la generazione del PDF
+            const opt = {
+                margin:       [10, 5, 10, 5], // margini in mm
+                filename:     `Profilo_${nomeOspite.replace(/\s+/g, '_')}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true,
+                    logging: false,
+                    letterRendering: true
+                },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Esegue la generazione e il download
+            html2pdf().set(opt).from(element).save().then(() => {
+                console.log('PDF scaricato correttamente');
+            }).catch(err => {
+                console.error('Errore generazione PDF:', err);
+                alert("Si è verificato un errore durante la generazione del PDF. Prova ad usare la 'Stampa Classica'.");
+            });
+        }
+    </script>
 </body>
 </html>
