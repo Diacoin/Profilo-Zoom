@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scheda Profilazione Contatto Zoom</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Libreria per la generazione diretta del PDF -->
+    <!-- Libreria per la generazione del PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         @media print {
@@ -261,7 +261,7 @@
             <!-- Azioni -->
             <div class="pt-6 flex flex-col gap-4 no-print">
                 <button type="button" id="btnScarica" onclick="scaricaPDF()" class="w-full bg-green-600 text-white py-4 rounded-2xl font-black text-lg shadow-xl hover:bg-green-700 transition transform active:scale-95 uppercase tracking-tighter">
-                    📥 SCARICA PDF (Ottimizzato Mobile)
+                    📥 SCARICA PDF
                 </button>
                 <div class="flex gap-4">
                     <button type="button" onclick="window.print()" class="flex-1 bg-indigo-100 text-indigo-700 py-3 rounded-2xl font-bold text-sm hover:bg-indigo-200 transition">
@@ -280,15 +280,21 @@
 
     <script>
         function scaricaPDF() {
+            // Controllo se la libreria è caricata
+            if (typeof html2pdf === 'undefined') {
+                alert("Errore: La libreria PDF non è ancora caricata. Attendi qualche secondo e riprova.");
+                return;
+            }
+
             const btn = document.getElementById('btnScarica');
             const originalText = btn.innerText;
             
             // Feedback visivo immediato
             btn.innerText = "GENERAZIONE IN CORSO...";
             btn.disabled = true;
-            btn.classList.add('opacity-50');
+            btn.style.opacity = "0.5";
 
-            // Reset dello scroll per evitare pagine bianche iniziali (fondamentale su mobile)
+            // Reset dello scroll per evitare pagine bianche iniziali
             window.scrollTo(0, 0);
 
             const element = document.getElementById('scheda-da-salvare');
@@ -298,38 +304,46 @@
             // Sanitizzazione nome file
             const safeName = nomeOspite.replace(/[^a-z0-9]/gi, '_').toLowerCase();
 
-            // Opzioni avanzate per correggere il layout su Android Chrome
+            // Opzioni bilanciate per evitare crash di memoria su Android
             const opt = {
-                margin:       [5, 5, 5, 5], // margini minimi per massimizzare il contenuto
+                margin:       [10, 5, 10, 5],
                 filename:     `Profilo_${safeName}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
+                image:        { type: 'jpeg', quality: 0.95 },
                 html2canvas:  { 
-                    scale: 2, 
+                    scale: 1, // Ridotto da 2 a 1 per maggiore velocità e meno consumo memoria su mobile
                     useCORS: true,
                     scrollY: 0,
                     scrollX: 0,
-                    windowWidth: 800, // Forzo una larghezza fissa durante la cattura per stabilizzare il layout
+                    windowWidth: element.clientWidth, // Adatta la cattura alla larghezza reale del contenitore
                     backgroundColor: '#ffffff'
                 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
                 pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
             };
 
-            // Piccolo delay per permettere allo scroll di stabilizzarsi
+            // Piccolo delay per permettere all'interfaccia mobile di stabilizzarsi
             setTimeout(() => {
-                html2pdf().set(opt).from(element).save().then(() => {
-                    // Ripristino pulsante
+                try {
+                    html2pdf().set(opt).from(element).save()
+                    .then(() => {
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                        btn.style.opacity = "1";
+                    })
+                    .catch(err => {
+                        console.error('Errore:', err);
+                        alert("Errore durante la generazione. Assicurati di non avere il browser in modalità risparmio energetico.");
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                        btn.style.opacity = "1";
+                    });
+                } catch (e) {
+                    alert("Il browser ha bloccato la generazione. Riprova aprendo il link direttamente in Chrome.");
                     btn.innerText = originalText;
                     btn.disabled = false;
-                    btn.classList.remove('opacity-50');
-                }).catch(err => {
-                    console.error('Errore generazione PDF:', err);
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-50');
-                    alert("Si è verificato un errore. Assicurati di essere su Chrome e non nel browser interno di WhatsApp.");
-                });
-            }, 300);
+                    btn.style.opacity = "1";
+                }
+            }, 500);
         }
     </script>
 </body>
