@@ -20,6 +20,12 @@
             color: #4f46e5;
             font-weight: bold;
         }
+
+        /* Correzioni per evitare troncamenti nel PDF */
+        section {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-900 font-sans p-2 md:p-8">
@@ -68,7 +74,7 @@
                 </div>
                 <div class="mt-6">
                     <label class="block text-sm font-bold text-slate-500 mb-3 uppercase tracking-wide">Luogo di Residenza (Città/Provincia)</label>
-                    <input type="text" required class="w-full border-b-2 border-slate-200 focus:border-indigo-500 outline-none p-2" placeholder="Es: Milano / Puglia...">
+                    <input type="text" id="residenza" required class="w-full border-b-2 border-slate-200 focus:border-indigo-500 outline-none p-2" placeholder="Es: Milano / Puglia...">
                 </div>
             </section>
 
@@ -243,11 +249,11 @@
                 <div class="space-y-4">
                     <div>
                         <label class="block text-xs font-bold text-orange-700 mb-1 uppercase tracking-wider">Qual è il suo "Pain" (problema da risolvere)?</label>
-                        <textarea class="w-full p-3 rounded-xl border border-orange-200 outline-none focus:ring-2 focus:ring-orange-500 min-h-[80px] text-sm" placeholder="Es: poco tempo per i figli, stipendio bloccato, paura inflazione..."></textarea>
+                        <textarea id="pain" class="w-full p-3 rounded-xl border border-orange-200 outline-none focus:ring-2 focus:ring-orange-500 min-h-[80px] text-sm" placeholder="Es: poco tempo per i figli, stipendio bloccato, paura inflazione..."></textarea>
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-orange-700 mb-1 uppercase tracking-wider">Cosa EVITARE assolutamente?</label>
-                        <textarea class="w-full p-3 rounded-xl border border-orange-200 outline-none focus:ring-2 focus:ring-orange-500 min-h-[80px] text-sm" placeholder="Argomenti sensibili o pregiudizi specifici..."></textarea>
+                        <textarea id="evitare" class="w-full p-3 rounded-xl border border-orange-200 outline-none focus:ring-2 focus:ring-orange-500 min-h-[80px] text-sm" placeholder="Argomenti sensibili o pregiudizi specifici..."></textarea>
                     </div>
                 </div>
             </section>
@@ -255,7 +261,7 @@
             <!-- Azioni -->
             <div class="pt-6 flex flex-col gap-4 no-print">
                 <button type="button" id="btnScarica" onclick="scaricaPDF()" class="w-full bg-green-600 text-white py-4 rounded-2xl font-black text-lg shadow-xl hover:bg-green-700 transition transform active:scale-95 uppercase tracking-tighter">
-                    📥 SCARICA PDF
+                    📥 SCARICA PDF (Ottimizzato Mobile)
                 </button>
                 <div class="flex gap-4">
                     <button type="button" onclick="window.print()" class="flex-1 bg-indigo-100 text-indigo-700 py-3 rounded-2xl font-bold text-sm hover:bg-indigo-200 transition">
@@ -268,7 +274,7 @@
         </form>
     </div>
 
-    <p class="text-center text-slate-400 text-xs mt-8 mb-12">
+    <p class="text-center text-slate-400 text-xs mt-8 mb-12 no-print">
         Strumento professionale solo per utilizzo interno. Trattare i dati con riservatezza.
     </p>
 
@@ -282,29 +288,34 @@
             btn.disabled = true;
             btn.classList.add('opacity-50');
 
+            // Reset dello scroll per evitare pagine bianche iniziali (fondamentale su mobile)
+            window.scrollTo(0, 0);
+
             const element = document.getElementById('scheda-da-salvare');
             const nomeInput = document.getElementById('nomeOspite');
             const nomeOspite = nomeInput.value.trim() || 'Ospite';
             
-            // Sanitizzazione nome file per Android
+            // Sanitizzazione nome file
             const safeName = nomeOspite.replace(/[^a-z0-9]/gi, '_').toLowerCase();
 
-            // Opzioni ottimizzate per Mobile
+            // Opzioni avanzate per correggere il layout su Android Chrome
             const opt = {
-                margin:       [10, 5, 10, 5],
+                margin:       [5, 5, 5, 5], // margini minimi per massimizzare il contenuto
                 filename:     `Profilo_${safeName}.pdf`,
-                image:        { type: 'jpeg', quality: 0.95 },
+                image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { 
                     scale: 2, 
                     useCORS: true,
-                    logging: false,
-                    letterRendering: true,
-                    allowTaint: true
+                    scrollY: 0,
+                    scrollX: 0,
+                    windowWidth: 800, // Forzo una larghezza fissa durante la cattura per stabilizzare il layout
+                    backgroundColor: '#ffffff'
                 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
             };
 
-            // Piccolo delay per permettere all'interfaccia di aggiornarsi prima del calcolo pesante
+            // Piccolo delay per permettere allo scroll di stabilizzarsi
             setTimeout(() => {
                 html2pdf().set(opt).from(element).save().then(() => {
                     // Ripristino pulsante
@@ -316,9 +327,9 @@
                     btn.innerText = originalText;
                     btn.disabled = false;
                     btn.classList.remove('opacity-50');
-                    alert("Errore durante il download. Se sei dentro WhatsApp, seleziona 'Apri in Chrome' dal menu in alto.");
+                    alert("Si è verificato un errore. Assicurati di essere su Chrome e non nel browser interno di WhatsApp.");
                 });
-            }, 100);
+            }, 300);
         }
     </script>
 </body>
