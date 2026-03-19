@@ -261,7 +261,7 @@
             <!-- Azioni -->
             <div class="pt-6 flex flex-col gap-4 no-print">
                 <button type="button" id="btnScarica" onclick="scaricaPDF()" class="w-full bg-green-600 text-white py-4 rounded-2xl font-black text-lg shadow-xl hover:bg-green-700 transition transform active:scale-95 uppercase tracking-tighter">
-                    📥 SCARICA PDF
+                    📥 SALVA O CONDIVIDI PDF
                 </button>
                 <div class="flex gap-4">
                     <button type="button" onclick="window.print()" class="flex-1 bg-indigo-100 text-indigo-700 py-3 rounded-2xl font-bold text-sm hover:bg-indigo-200 transition">
@@ -280,70 +280,110 @@
 
     <script>
         function scaricaPDF() {
-            // Controllo se la libreria è caricata
             if (typeof html2pdf === 'undefined') {
                 alert("Errore: La libreria PDF non è ancora caricata. Attendi qualche secondo e riprova.");
                 return;
             }
 
             const btn = document.getElementById('btnScarica');
-            const originalText = btn.innerText;
+            const originalText = btn.innerHTML;
             
-            // Feedback visivo immediato
-            btn.innerText = "GENERAZIONE IN CORSO...";
+            btn.innerHTML = "⏳ ELABORAZIONE IN CORSO...";
             btn.disabled = true;
             btn.style.opacity = "0.5";
 
-            // Reset dello scroll per evitare pagine bianche iniziali
+            // FONDAMENTALE SU MOBILE: Forza la sincronizzazione dei campi di testo per non averli vuoti nel PDF
+            document.querySelectorAll('input[type="text"]').forEach(el => el.setAttribute('value', el.value));
+            document.querySelectorAll('textarea').forEach(el => el.innerHTML = el.value);
+            document.querySelectorAll('select').forEach(el => {
+                Array.from(el.options).forEach(opt => opt.removeAttribute('selected'));
+                if (el.selectedIndex >= 0) {
+                    el.options[el.selectedIndex].setAttribute('selected', 'selected');
+                }
+            });
+
+            // Reset dello scroll prima di fotografare per evitare blocchi bianchi
             window.scrollTo(0, 0);
 
             const element = document.getElementById('scheda-da-salvare');
             const nomeInput = document.getElementById('nomeOspite');
             const nomeOspite = nomeInput.value.trim() || 'Ospite';
             
-            // Sanitizzazione nome file
             const safeName = nomeOspite.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            const filename = `Profilo_${safeName}.pdf`;
 
-            // Opzioni bilanciate per evitare crash di memoria su Android
             const opt = {
                 margin:       [10, 5, 10, 5],
-                filename:     `Profilo_${safeName}.pdf`,
+                filename:     filename,
                 image:        { type: 'jpeg', quality: 0.95 },
                 html2canvas:  { 
-                    scale: 1, // Ridotto da 2 a 1 per maggiore velocità e meno consumo memoria su mobile
+                    scale: 2, // Scala aumentata per ottima risoluzione
                     useCORS: true,
                     scrollY: 0,
                     scrollX: 0,
-                    windowWidth: element.clientWidth, // Adatta la cattura alla larghezza reale del contenitore
-                    backgroundColor: '#ffffff'
+                    windowWidth: element.clientWidth || 800
                 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // Piccolo delay per permettere all'interfaccia mobile di stabilizzarsi
+            // Invece di far forzare al browser un download (spesso bloccato su Android)
+            // Creiamo il file PDF in memoria (Blob) e lo inviamo alla Condivisione Nativa
             setTimeout(() => {
-                try {
-                    html2pdf().set(opt).from(element).save()
-                    .then(() => {
-                        btn.innerText = originalText;
-                        btn.disabled = false;
-                        btn.style.opacity = "1";
-                    })
-                    .catch(err => {
-                        console.error('Errore:', err);
-                        alert("Errore durante la generazione. Assicurati di non avere il browser in modalità risparmio energetico.");
-                        btn.innerText = originalText;
-                        btn.disabled = false;
-                        btn.style.opacity = "1";
-                    });
-                } catch (e) {
-                    alert("Il browser ha bloccato la generazione. Riprova aprendo il link direttamente in Chrome.");
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                    btn.style.opacity = "1";
-                }
+                html2pdf().set(opt).from(element).output('blob').then(function(pdfBlob) {
+                    
+                    ripristinaBottone(btn, originalText);
+
+                    // Verifica se il telefono supporta il menu di condivisione nativo per i file (Android/iOS recenti)
+                    try {
+                        const file = new File([pdfBlob], filename, { type: 'application/pdf' });
+                        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                            navigator.share({
+                                files: [file],
+                                title: filename,
+                                text: 'Ecco la scheda profilazione Zoom compilata.'
+                            }).catch(e => {
+                                // Se l'utente chiude il menu di condivisione o va in errore, proviamo il download classico
+                                console.log('Condivisione annullata, tentativo di download classico', e);
+                                fallbackDownload(pdfBlob, filename);
+                            });
+                            return; // Usciamo dalla funzione perché la condivisione ha funzionato
+                        }
+                    } catch (e) {
+                        console.log("Share API fallita", e);
+                    }
+
+                    // Se lo smartphone non supporta la condivisione, facciamo il download classico
+                    fallbackDownload(pdfBlob, filename);
+
+                }).catch(err => {
+                    console.error('Errore:', err);
+                    alert("Si è verificato un errore nella generazione del PDF.");
+                    ripristinaBottone(btn, originalText);
+                });
             }, 500);
+        }
+
+        // Funzione di Download Classica (Piano B)
+        function fallbackDownload(blob, filename) {
+            try {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            } catch (e) {
+                alert("Il download diretto è bloccato dal browser del tuo telefono. Usa il tasto 'Stampa Classica' e scegli 'Salva come PDF'.");
+            }
+        }
+
+        function ripristinaBottone(btn, text) {
+            btn.innerHTML = text;
+            btn.disabled = false;
+            btn.style.opacity = "1";
         }
     </script>
 </body>
